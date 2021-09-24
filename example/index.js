@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const Daikin = require('../lib/index.js');
 
 const AIRVOL_AUTOFAN = 0;
