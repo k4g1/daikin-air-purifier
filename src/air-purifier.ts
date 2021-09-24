@@ -23,23 +23,25 @@ const HUMD_STANDARD = 2;
 const HUMD_HIGH = 3;
 const HUMD_AUTO = 4;
 
+const BASE_URL = 'https://api.daikinsmartdb.jp';
+const PORT_NUM = 30051;
+
 export class AirPurifier {
 
     private readonly login_id: string;
     private readonly password: string;
+    private readonly token: string;
+
     private readonly instance: AxiosInstance;
 
-    constructor(login_id: string, password: string) {
+    constructor(login_id: string, password: string, token: string) {
         this.password = password;
         this.login_id = login_id;
+        this.token = token;
+
         this.instance = axios.create({
-            url: '/',
-            baseURL: 'https://daikinsmartdb.jp/',
-            params: {
-                id: this.login_id,
-                spw: this.password,
-                port: '30050',
-            },
+            baseURL: BASE_URL,
+            headers: { Authorization: this.token },
             timeout: 5000,
         });
     }
@@ -117,10 +119,12 @@ export class AirPurifier {
     private async _get<T>(url: string, resStyle: number, params?: object): Promise<T> {
         let results: any;
         try {
-            if(params) {
-                this.instance.defaults.params = Object.assign(this.instance.defaults.params, params)
-            }
-            const response = await this.instance.get(url);
+            const response = await this.instance.get(url, { params: {
+                ...params,
+                id: this.login_id,
+                spw: this.password,
+                port: PORT_NUM
+            }});
             results = {};
             const responsePairs = response.data.toString().split(',');
             let responseKeyValues = new Map();

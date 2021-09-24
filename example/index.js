@@ -11,7 +11,7 @@ const HUMD_STANDARD = 2;
 const HUMD_HIGH = 3;
 const HUMD_AUTO = 4;
 
-const client = new Daikin.AirPurifier(process.env.DAIKIN_ID,process.env.DAIKIN_PASSWORD);
+const client = new Daikin.AirPurifier(process.env.DAIKIN_ID,process.env.DAIKIN_PASSWORD,process.env.DAIKIN_TOKEN);
 
 async function getUnitInfo() {
     let unitInfo = await client.getUnitInfo();
