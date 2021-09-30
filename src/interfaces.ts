@@ -13,6 +13,7 @@ export interface CtrlInfo {
     mode: number
     airvol: number
     humd: number
+    acOpeMode: number
 }
 
 export interface SensorInfo {

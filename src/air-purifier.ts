@@ -101,7 +101,7 @@ export class AirPurifier {
         return await this.setControlInfo(unitInfo.ctrl_info.pow, unitInfo.ctrl_info.mode, unitInfo.ctrl_info.airvol, humd);
     }
 
-    public async setControlInfo (pow: number, mode?: number, airvol?: number, humd?: number): Promise<DAP.ControlInfo>{
+    public async setControlInfo (pow: number, mode?: number, airvol?: number, humd?: number, acOpeMode?: number): Promise<DAP.ControlInfo>{
         let params = { pow: pow };
 
         if (mode != undefined) {
@@ -112,6 +112,9 @@ export class AirPurifier {
         }
         if (humd != undefined) {
             params = Object.assign(params, {humd: humd})
+        }
+        if (acOpeMode != undefined) {
+            params = Object.assign(params, {acOpeMode: acOpeMode})
         }
         return await this._get('/cleaner/set_control_info', RES_STYLE_NONE, params)
     }
